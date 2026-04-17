@@ -77,7 +77,7 @@ export function PageIntro({
   eyebrow,
   title,
   description,
-  aside
+  aside,
 }: {
   eyebrow: string;
   title: string;
@@ -89,9 +89,7 @@ export function PageIntro({
       <div className="mx-auto grid max-w-7xl gap-8 px-6 py-16 lg:grid-cols-[1.4fr,0.8fr] lg:px-8 lg:py-20">
         <div className="space-y-5">
           <p className="text-xs uppercase tracking-[0.32em] text-brand">{eyebrow}</p>
-          <h1 className="max-w-4xl font-display text-4xl leading-tight text-ink md:text-5xl">
-            {title}
-          </h1>
+          <h1 className="max-w-4xl font-display text-4xl leading-tight text-ink md:text-5xl">{title}</h1>
           <p className="max-w-3xl text-base leading-8 text-ink/72 md:text-lg">{description}</p>
         </div>
         {aside ? <div>{aside}</div> : null}
@@ -104,7 +102,7 @@ export function SectionTitle({
   eyebrow,
   title,
   description,
-  align = "left"
+  align = "left",
 }: {
   eyebrow: string;
   title: string;
@@ -122,22 +120,18 @@ export function SectionTitle({
 
 export function Panel({
   className,
-  children
+  children,
 }: {
   className?: string;
   children: ReactNode;
 }) {
-  return (
-    <div className={cx("rounded-[28px] border border-ink/10 bg-white/78 p-6 shadow-panel backdrop-blur", className)}>
-      {children}
-    </div>
-  );
+  return <div className={cx("rounded-[28px] border border-ink/10 bg-white/78 p-6 shadow-panel backdrop-blur", className)}>{children}</div>;
 }
 
 export function MetricCard({
   label,
   value,
-  note
+  note,
 }: {
   label: string;
   value: string;
@@ -155,7 +149,7 @@ export function MetricCard({
 export function ActionLink({
   href,
   label,
-  tone = "primary"
+  tone = "primary",
 }: {
   href: string;
   label: string;
@@ -168,7 +162,7 @@ export function ActionLink({
         "inline-flex items-center rounded-full px-5 py-3 text-sm transition",
         tone === "primary"
           ? "bg-ink text-shell hover:bg-brand"
-          : "border border-ink/12 bg-white/70 text-ink hover:border-brand/40 hover:text-brand"
+          : "border border-ink/12 bg-white/70 text-ink hover:border-brand/40 hover:text-brand",
       )}
     >
       {label}

@@ -1,38 +1,49 @@
-from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel, HttpUrl
-from app.database import create_submission, list_submissions, test_connection
+from fastapi import APIRouter, HTTPException, Query, Request
+
+from app.database import PolarisRepository
+from app.schemas import SubmissionConnectionTest, SubmissionCreate
 
 router = APIRouter()
 
-class SubmissionCreate(BaseModel):
-    model_name: str
-    version: str
-    institution: str | None = None
-    size_category: str
-    source_type: str
-    endpoint: HttpUrl | None = None
-    api_key: str | None = None
-    request_format: str = "openai"
-    temperature: float = 0.0
-    max_tokens: int = 2048
-    system_prompt: str | None = None
-    domains: list[str]
-    precision_profile: str
-    visibility: str
-    email: str | None = None
+
+def get_repository(request: Request) -> PolarisRepository:
+    return request.app.state.repository
+
 
 @router.post("/", summary="Submit a new model for evaluation")
-def submit_model(payload: SubmissionCreate):
-    submission = create_submission(payload.dict())
+def submit_model(payload: SubmissionCreate, request: Request):
+    repo = get_repository(request)
+    return repo.create_submission(payload)
+
+
+@router.get("/", summary="List submissions")
+def submission_list(request: Request, status: str | None = Query(default=None)):
+    repo = get_repository(request)
+    return repo.list_submissions(status=status)
+
+
+@router.get("/{submission_id}", summary="Submission detail")
+def submission_detail(submission_id: str, request: Request):
+    repo = get_repository(request)
+    submission = repo.get_submission_detail(submission_id)
+    if submission is None:
+        raise HTTPException(status_code=404, detail="Submission not found.")
     return submission
 
-@router.get("/", summary="List user submissions")
-def submission_list():
-    return list_submissions()
+
+@router.post("/{submission_id}/cancel", summary="Cancel a submission")
+def cancel_submission(submission_id: str, request: Request):
+    repo = get_repository(request)
+    cancelled = repo.cancel_submission(submission_id)
+    if cancelled is None:
+        raise HTTPException(status_code=404, detail="Submission not found.")
+    return cancelled
+
 
 @router.post("/test-connection", summary="Test model API connection")
-def connection_test(payload: SubmissionCreate):
-    success, detail = test_connection(payload.dict())
-    if not success:
-        raise HTTPException(status_code=400, detail=detail)
-    return {"success": True, "detail": detail}
+def connection_test(payload: SubmissionConnectionTest, request: Request):
+    repo = get_repository(request)
+    result = repo.test_connection(payload)
+    if not result.success:
+        raise HTTPException(status_code=400, detail=result.detail)
+    return result

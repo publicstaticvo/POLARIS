@@ -1,11 +1,24 @@
-import { DomainScore, ModelRecord } from "@/lib/polaris-data";
 import { formatCi, formatTheta } from "@/lib/utils";
+
+type ThetaRecord = {
+  name: string;
+  theta: number;
+  se: number;
+};
+
+type RadarDomain = {
+  key: string;
+  label: string;
+  theta: number;
+  se: number;
+  items: number;
+};
 
 export function ForestPlot({
   records,
   height = 320
 }: {
-  records: Pick<ModelRecord, "name" | "theta" | "se">[];
+  records: ThetaRecord[];
   height?: number;
 }) {
   const width = 640;
@@ -53,7 +66,7 @@ export function ForestPlot({
   );
 }
 
-export function RadarChart({ domains }: { domains: DomainScore[] }) {
+export function RadarChart({ domains }: { domains: RadarDomain[] }) {
   const size = 340;
   const center = size / 2;
   const radius = 112;

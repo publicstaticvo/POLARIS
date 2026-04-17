@@ -1,19 +1,14 @@
-import Link from "next/link";
-
-import { Panel } from "@/components/shell";
-import { ActionLink, MetricCard, PageIntro, SectionTitle } from "@/components/shell";
-import { models, platformSteps, siteStats } from "@/lib/polaris-data";
-import { formatCi, formatTheta } from "@/lib/utils";
+import { LandingSnapshotClient } from "@/components/landing-snapshot-client";
+import { ActionLink, MetricCard, PageIntro, Panel, SectionTitle } from "@/components/shell";
+import { platformSteps, siteStats } from "@/lib/polaris-data";
 
 export default function HomePage() {
-  const headliners = models.slice(0, 3);
-
   return (
     <main>
       <PageIntro
         eyebrow="LLM Evaluation Infrastructure"
         title="提交一次模型 API，用更少题量得到带置信区间的能力排名。"
-        description="POLARIS IRT Core 是基于 IRT + CAT 的自动化大模型评测平台。它把提交、预检、调度、能力估计、报告生成和排行榜更新串成一条全自动流水线。"
+        description="POLARIS IRT Core 是基于 IRT + CAT 的自动化大模型评测平台。现在首页会直接读取后端摘要数据，主流程也已经可以和 FastAPI 联动。"
         aside={
           <div className="panel-glow">
             <Panel className="grain space-y-5 bg-white/82">
@@ -64,7 +59,7 @@ export default function HomePage() {
                 ["结果形式", "原始正确率 / ELO → θ 绝对能力量尺"],
                 ["结果可信度", "每个结果都附带 SE 与 95% 置信区间"],
                 ["测试效率", "自适应选题，通常 20-30 题即可收敛"],
-                ["题库安全", "随机选题 + 曝光控制，抑制题目泄露影响"]
+                ["题库安全", "随机选题 + 曝光控制，抑制题目泄露影响"],
               ].map(([title, body]) => (
                 <div key={title} className="rounded-[24px] border border-ink/10 bg-shell p-5">
                   <p className="text-xs uppercase tracking-[0.2em] text-brand">{title}</p>
@@ -97,66 +92,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-[1.05fr,0.95fr]">
-          <Panel className="space-y-5">
-            <SectionTitle
-              eyebrow="Launch Snapshot"
-              title="上线即有参考价值，而不是空榜。"
-              description="根据文档的冷启动策略，首页默认展示首批已评测的主流模型，确保访问者第一天就能看到可比结果。"
-            />
-            <div className="space-y-4">
-              {headliners.map((model) => (
-                <div key={model.slug} className="rounded-[24px] border border-ink/10 bg-white/70 p-5">
-                  <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.22em] text-brand">Rank #{model.rank}</p>
-                      <h3 className="mt-2 font-display text-2xl">{model.name}</h3>
-                      <p className="mt-2 text-sm leading-7 text-ink/68">{model.summary}</p>
-                    </div>
-                    <div className="rounded-[24px] border border-ink/10 bg-shell px-5 py-4 text-right">
-                      <p className="text-xs uppercase tracking-[0.2em] text-ink/45">综合能力</p>
-                      <p className="mt-2 font-display text-3xl">{formatTheta(model.theta)}</p>
-                      <p className="mt-2 text-sm text-ink/60">{formatCi(model.theta, model.se)}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Panel>
-
-          <div className="space-y-6">
-            <Panel className="space-y-4">
-              <SectionTitle
-                eyebrow="Entry Points"
-                title="围绕文档中的核心任务组织导航。"
-                description="核心页面优先级与设计文档一致：排行榜、提交评测、模型详情和进度面板构成第一圈。"
-              />
-              <div className="grid gap-3">
-                {[
-                  ["/leaderboard", "排行榜", "综合榜、领域榜与置信区间森林图"],
-                  ["/submit", "提交评测", "三步完成提交，支持 API 和本地代理"],
-                  ["/dashboard", "评测进度", "查看子任务收敛情况与历史记录"],
-                  ["/compare", "能力对比", "多模型横向对比综合 θ 与领域差异"]
-                ].map(([href, title, desc]) => (
-                  <Link key={href} href={href} className="rounded-[24px] border border-ink/10 bg-white/70 p-5 transition hover:border-brand/30">
-                    <p className="font-display text-2xl">{title}</p>
-                    <p className="mt-2 text-sm leading-7 text-ink/68">{desc}</p>
-                  </Link>
-                ))}
-              </div>
-            </Panel>
-
-            <Panel className="space-y-4 bg-brand text-shell">
-              <p className="text-xs uppercase tracking-[0.24em] text-shell/65">Scientific Ranking</p>
-              <h3 className="font-display text-3xl">唯一把“统计上无显著差异”直接讲清楚的 LLM 排行榜。</h3>
-              <p className="text-sm leading-7 text-shell/80">
-                设计文档把“置信区间排名”作为核心传播点。站点的视觉与内容结构也因此围绕区间、变化与可信解释展开，而不是只展示一个孤立分数。
-              </p>
-            </Panel>
-          </div>
-        </div>
-      </section>
+      <LandingSnapshotClient />
     </main>
   );
 }

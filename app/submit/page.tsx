@@ -12,7 +12,7 @@ export default function SubmitPage() {
           <Panel className="space-y-4">
             <p className="text-xs uppercase tracking-[0.2em] text-brand">Design Principle</p>
             <p className="text-sm leading-7 text-ink/70">
-              零技术门槛。用户只需要准备 API Endpoint + API Key，或者使用 CLI 把本地模型注册成临时 endpoint。
+              零技术门槛。现在页面会直接调用后端的连接测试和任务创建接口，不再只是示意性表单。
             </p>
           </Panel>
         }
@@ -28,7 +28,7 @@ export default function SubmitPage() {
                 ["预检", "验证接口连通性、格式兼容性和速率限制"],
                 ["调度", "按领域拆分为子任务并控制并发数"],
                 ["CAT 测试", "根据当前 θ 与 SE 持续选题直到收敛"],
-                ["发布", "生成报告并把结果推送到排行榜与消息中心"]
+                ["发布", "生成报告并把结果推送到排行榜与消息中心"],
               ].map(([title, text], index) => (
                 <div key={title} className="grid grid-cols-[auto,1fr] gap-4 rounded-[24px] border border-ink/10 bg-shell p-4">
                   <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-ink text-shell">{index + 1}</div>
