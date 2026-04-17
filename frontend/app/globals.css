@@ -1,0 +1,160 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: #f4f7fb;
+  color: #111827;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.site-nav a {
+  color: #d1d5db;
+  margin-left: 1.5rem;
+  text-decoration: none;
+}
+
+.site-nav a:hover {
+  color: #ffffff;
+}
+
+.page-container {
+  width: min(1200px, calc(100% - 2rem));
+  margin: 2rem auto;
+}
+
+.page-header {
+  margin-bottom: 1.5rem;
+}
+
+.hero {
+  background: linear-gradient(135deg, #0b1120 0%, #1f2a48 100%);
+  border-radius: 1rem;
+  color: #fff;
+  padding: 3rem;
+  margin-bottom: 2rem;
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  margin: 0.5rem 0 1rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.description {
+  max-width: 720px;
+  line-height: 1.75;
+  opacity: 0.9;
+}
+
+.section-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+  padding: 1.5rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  padding: 0.85rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+table th {
+  font-weight: 700;
+}
+
+input,
+select,
+button {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin-top: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.75rem;
+  background: #ffffff;
+  color: #111827;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: #2563eb;
+  color: white;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+.wizard-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.status-message {
+  margin-top: 1rem;
+  color: #2563eb;
+}
+
+.checkbox-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.leaderboard.compact {
+  max-height: 320px;
+  overflow: auto;
+}
+
+.dashboard.compact,
+.submit-wizard.compact {
+  max-height: 260px;
+  overflow: auto;
+}
+
+.site-footer {
+  padding: 1rem 2rem;
+  text-align: center;
+  border-top: 1px solid #e5e7eb;
+  margin-top: auto;
+}
